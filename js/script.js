@@ -1,7 +1,9 @@
 $(function() {
 
+  var search = $('#submit').on('click', function(e) {
+    var result = $('#text').val().split('');
     $.ajax({
-        url: 'https://api.tenor.co/v1/search?key=LIVDSRZULELA&tag=goodluck&limit=10', // указываем URL и
+        url: 'https://api.tenor.co/v1/search?key=LIVDSRZULELA'+ '&tag=' + result + '&limit=10',
         dataType: "json",
         success: function(data, textStatus) {
             var firstGif = data.results[2].media[0].gif.url;
@@ -14,6 +16,8 @@ $(function() {
             $('.fourthGif').attr('src', fourthGif);
         }
     });
+    e.preventDefault();
+  });
 });
 
 function Human() {
@@ -23,25 +27,24 @@ function Human() {
   this.weight = 7;
 }
 
-
-function Worker() {
-  this.profession = 'lawyer';
-  this.salary = '100$';
-  this.work = function() {
-    alert('I like my work');
-  };
+function Worker(profession, salary, work) {
+  this.profession = profession;
+  this.salary = salary;
+  this.work = work;
 }
 
-function Student() {
-  this.stipend = '10$';
-  this.PlaceOfStudy = 'Hogwarts';
-  this.tvSeries = function() {
-    alert('Turn on the TV and watch TV shows');
-  };
+function Student(stipend, PlaceOfStudy, tvSeries) {
+  this.stipend = stipend;
+  this.PlaceOfStudy = PlaceOfStudy;
+  this.tvSeries = tvSeries;
 }
 
-Student.prototype = new Worker();
-Human.prototype = new Student();
+Student.prototype = new Worker('lawyer', '100$', function(){
+  alert('I like my work');
+});
+Human.prototype = new Student('10$', 'Hogwarts', function() {
+  alert('Turn on the TV and watch TV shows');
+});
 
 var human = new Human();
 console.log(human.PlaceOfStudy);
